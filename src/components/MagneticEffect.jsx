@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
-const MagneticEffect = ({ children }) => {
+const MagneticEffect = ({
+  children,
+  className = "",
+  borderClassName = "",
+  distance = 100 // Default distance
+}) => {
   const ref = useRef(null);
   const [rotate, setRotate] = useState(0);
 
@@ -10,13 +15,13 @@ const MagneticEffect = ({ children }) => {
   const y = useMotionValue(0);
 
   // Transform x and y to control the magnetic effect
-  const xTransform = useTransform(x, [-100, 100], [-20, 20]);
-  const yTransform = useTransform(y, [-100, 100], [-20, 20]);
+  const xTransform = useTransform(x, [-distance, distance], [-20, 20]);
+  const yTransform = useTransform(y, [-distance, distance], [-20, 20]);
 
   // Transform x and y to control scaling effect
   const scaleTransform = useTransform([x, y], ([x, y]) => {
-    const distance = Math.sqrt(x * x + y * y);
-    return 1 - Math.min(distance / 100, 0.08); // Adjust scale factor here
+    const dist = Math.sqrt(x * x + y * y);
+    return 1 - Math.min(dist / distance, 0.08); // Adjust scale factor here
   });
 
   useEffect(
@@ -64,16 +69,15 @@ const MagneticEffect = ({ children }) => {
         scale: scaleTransform,
         transition: "transform 0.2s"
       }}
-      className="relative h-[19rem] w-[19rem] rounded-full border border-gray-300/40 flex items-center justify-center"
+      className={`relative h-[19rem] w-[19rem] rounded-full border border-gray-300/40 flex items-center justify-center ${className}`}
     >
       {children}
       <div
-        className="CircularBorderEffect absolute h-full w-full z-10 rounded-full border-t-2"
+        className={`CircularBorderEffect absolute h-full w-full z-10 rounded-full ${borderClassName}`}
         style={{
           transform: `rotate(${rotate}deg)`,
           transition: "transform 0.005s ease-in-out 0.005s"
-        } // Adding transition for rotation
-        }
+        }}
       />
     </motion.div>
   );

@@ -7,6 +7,7 @@ import MagneticEffect from "../components/MagneticEffect";
 import TextAnimation from "../components/Animations/TextAnimation";
 import ArrowAnimation from "../components/Animations/ArrowAnimation";
 import ServiceBox from "../components/PartnershipBox";
+import { FaPlay } from "react-icons/fa";
 
 const HomePage = () => {
   const titles = ["Big", "tech", "buzz", "Cool", "smart"];
@@ -87,6 +88,22 @@ const HomePage = () => {
       alt: "Corel",
       text: "Showcasing a future vision for WinZip family products."
     }
+  ];
+
+  const awards = [
+    {
+      imgSrc: "/assets/_award-dribbble.svg",
+      title: "#1 Team in the world on Dribble"
+    },
+    {
+      imgSrc: "/assets/_award-clutch2.svg",
+      title: "Top 100 Global Service provider by clutch"
+    },
+    {
+      imgSrc: "/assets/_award-5stars.svg",
+      title: "5 Stars rating on GoodFirms"
+    },
+    { imgSrc: "/assets/_award-upwork.svg", title: "100% Job Success On Upwork" }
   ];
 
   const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
@@ -233,55 +250,57 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-        <div className="aboutBottomPart overflow-x-scroll capitalize w-full h-auto py-3 overflow-hidden flex px-16 gap-5 relative bottom-0 left-0 justify-center">
-          <MagneticEffect>
-            <div className="_FeaturedBox h-[19rem] relative w-[19rem] rounded-full border border-gray-300/40 flex flex-col text-white gap-4 items-center justify-center">
-              <img src="/assets/_award-dribbble.svg" alt="award1" />
-              <h2 className="text-xl px-10 text-center font-medium">
-                #1 Team in the world on Dribble
-              </h2>
-              <div className="CircularBorderEffect absolute h-full w-full z-10 rounded-full" />
-            </div>
-          </MagneticEffect>
-          <MagneticEffect>
-            <div className="_FeaturedBox h-[19rem] relative w-[19rem] rounded-full border border-gray-300/40 flex flex-col text-white gap-4 items-center justify-center">
-              <img src="/assets/_award-clutch2.svg" alt="award1" />
-              <h2 className="text-xl px-10 text-center font-medium">
-                Top 100 Global Service provider by clutch
-              </h2>
-              <div className="CircularBorderEffect absolute h-full w-full z-10 rounded-full" />
-            </div>
-          </MagneticEffect>
-          <MagneticEffect>
-            <div className="_FeaturedBox h-[19rem] relative w-[19rem] rounded-full border border-gray-300/40 flex flex-col text-white gap-4 items-center justify-center">
-              <img src="/assets/_award-5stars.svg" alt="award1" />
-              <h2 className="text-xl px-10 text-center font-medium">
-                5 Stars rating on GoodFirms
-              </h2>
-              <div className="CircularBorderEffect absolute h-full w-full z-10 rounded-full" />
-            </div>
-          </MagneticEffect>
-          <MagneticEffect>
-            <div className="_FeaturedBox h-[19rem] relative w-[19rem] rounded-full border border-gray-300/40 flex flex-col text-white gap-4 items-center justify-center">
-              <img src="/assets/_award-upwork.svg" alt="award1" />
-              <h2 className="text-xl px-10 text-center font-medium">
-                100% Job Success On Upwork
-              </h2>
-              <div className="CircularBorderEffect absolute h-full w-full z-10 rounded-full" />
-            </div>
-          </MagneticEffect>
+        <div className="aboutBottomPart overflow-x-scroll capitalize w-full h-auto py-3 overflow-hidden flex px-16 gap-10 relative bottom-0 left-0 justify-center">
+          {awards.map(award => {
+            return (
+              <MagneticEffect borderClassName="border-t-2">
+                <div className="_FeaturedBox h-[19rem] relative w-[19rem] rounded-full border border-gray-300/40 flex flex-col text-white gap-4 items-center justify-center">
+                  <img src={award.imgSrc} alt="award1" />
+                  <h2 className="text-xl px-10 text-center font-medium">
+                    {award.title}
+                  </h2>
+                  <div className="CircularBorderEffect absolute h-full w-full z-10 rounded-full" />
+                </div>
+              </MagneticEffect>
+            );
+          })}
         </div>
       </section>
-      <section className="servicePage h-[150vh] w-screen my-20">
-        <div className="InnerS h-[90%] w-[90%] relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[url('/public/assets/_bg-card-works_laptop.webp')] bg-contain bg-center bg-no-repeat">
-          <div className="bannerScreen w-full absolute z-10 top-10">
-            <div className="header w-1/2 h-auto">
+      <section className="servicePage h-[1024px] w-screen my-20 relative">
+        <img
+          src="/assets/_bg-card-works_laptop.webp"
+          alt="backImg"
+          className="object-contain left-1/2 -translate-x-1/2 absolute object-center h-full w-[85%] mx-auto rounded-3xl"
+        />
+        <div className="InnerS h-[90%] w-[90%] relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="bannerScreen w-full flex items-center justify-between relative z-10 top-10">
+            <div className="header p-10 w-1/2 h-auto">
               <h1 className="text-[7rem] text-black font-bold leading-none font-overpass text-wrap px-10">
                 OUR SERVICES
               </h1>
             </div>
+            <div className="boxWrapper flex p-14">
+              <div className="magneticVdo h-28 w-28 overflow-hidden rounded-full">
+                <video
+                  className="h-full w-full object-cover object-center"
+                  autoPlay
+                  loop
+                  muted
+                  src="/assets/embed.mp4"
+                />
+              </div>
+              <MagneticEffect
+                borderClassName=""
+                distance={20}
+                className="relative right-10  !h-28 !w-28 cursor-pointer bg-black hover:bg-[#3827C7] rounded-full flex items-center justify-center"
+              >
+                <div className="magneticVdo">
+                  <FaPlay className="text-white" />
+                </div>
+              </MagneticEffect>
+            </div>
           </div>
-          <div className="contentPage w-full h-[70%] bottom-0 gap-2 absolute grid grid-flow-col grid-rows-2 px-10 py-10">
+          <div className="contentPage w-full h-[70%] bottom-0 gap-2 absolute grid grid-flow-col grid-rows-2 px-12 py-10">
             {boxContents.map((content, index) =>
               <ServiceBox
                 key={index}
