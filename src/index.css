@@ -35,7 +35,7 @@ body {
     to bottom,
     rgba(2, 2, 30, 1) 30%,
     rgba(23, 15, 98, 1) 60%,
-    rgba(2, 2, 30, 1) 
+    rgba(2, 2, 30, 1)
   );
   overflow-x: hidden;
 }
@@ -60,6 +60,20 @@ body {
   font-family: "Overpass", system-ui;
   font-optical-sizing: auto;
   font-style: normal;
+}
+
+.cusClipPath {
+  clip-path: polygon(13% 0, 100% 0, 100% 100%, 0 100%, 0 12%);
+}
+
+.cursorFollower {
+  z-index: 9999;
+  overflow: visible; /* Ensure it is not clipped by parent */
+}
+
+.VideoContainer {
+  position: relative; /* Ensure proper positioning */
+  overflow: visible; /* Ensure the follower is not clipped */
 }
 
 @media (max-width: 750px) and (min-width: 350px) {

@@ -5,9 +5,9 @@ import { SlEnergy } from "react-icons/sl";
 import VideoSection from "../components/VideoSection";
 import MagneticEffect from "../components/MagneticEffect";
 import TextAnimation from "../components/Animations/TextAnimation";
-import ArrowAnimation from "../components/Animations/ArrowAnimation";
-import ServiceBox from "../components/PartnershipBox";
 import { FaPlay } from "react-icons/fa";
+import PartnershipBox from "../components/PartnershipBox";
+import ArrowButtonAnimation from "../components/Animations/ArrowBtnReviw";
 
 const HomePage = () => {
   const titles = ["Big", "tech", "buzz", "Cool", "smart"];
@@ -109,6 +109,8 @@ const HomePage = () => {
   const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [hoverStates, setHoverStates] = useState(Array(4).fill(false));
+  const [isLeftArrowHovered, setIsLeftArrowHovered] = useState(false);
+  const [isRightArrowHovered, setIsRightArrowHovered] = useState(false);
 
   const handleMouseEnter = index => {
     setHoverStates(prevStates =>
@@ -275,7 +277,7 @@ const HomePage = () => {
         <div className="InnerS h-[90%] w-[90%] relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="bannerScreen w-full flex items-center justify-between relative z-10 top-10">
             <div className="header p-10 w-1/2 h-auto">
-              <h1 className="text-[7rem] text-black font-bold leading-none font-overpass text-wrap px-10">
+              <h1 className="text-[7rem] uppercase text-black font-bold leading-none font-overpass text-wrap px-10">
                 OUR SERVICES
               </h1>
             </div>
@@ -302,7 +304,7 @@ const HomePage = () => {
           </div>
           <div className="contentPage w-full h-[70%] bottom-0 gap-2 absolute grid grid-flow-col grid-rows-2 px-12 py-10">
             {boxContents.map((content, index) =>
-              <ServiceBox
+              <PartnershipBox
                 key={index}
                 title={content.title}
                 description={content.description}
@@ -356,6 +358,96 @@ const HomePage = () => {
               <p className="absolute w-72 text-center mt-28 font-SuisseBold transition-opacity duration-300 opacity-50 group-hover:opacity-50">
                 350+ clients worldwide
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* TODO REVIEW PART */}
+      {/* <section className="reviewPage h-[150vh] w-screen" /> */}
+
+      <section className="showCasePage h-[1024px] w-screen my-20 relative">
+        <img
+          src="/assets/_bg-card-works_laptop.webp"
+          alt="backImg"
+          className="object-contain left-1/2 -translate-x-1/2 absolute object-center h-full w-[85%] mx-auto rounded-3xl"
+        />
+        <div className="InnerS h-[90%] w-[90%] relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="bannerScreen w-full flex items-center justify-between relative z-10 top-10">
+            <div className="header p-10 w-1/2 h-auto">
+              <h1 className="text-[7rem] mb-20 uppercase text-black font-bold leading-none font-overpass text-wrap px-10">
+                OUR Works
+              </h1>
+            </div>
+            <div className="boxWrapper flex p-14 justify-between">
+              <h2 className="w-[65%] p-16 text-xl font-medium pl-20">
+                Business challenges are tough, but we have a proven record of
+                elevating our partners to their next and best selves.
+              </h2>
+              <div className="duo flex items-center">
+                <div className="magneticVdo h-28 w-28 overflow-hidden rounded-full">
+                  <video
+                    className="h-full w-full object-cover object-center"
+                    autoPlay
+                    loop
+                    muted
+                    src="/assets/Showreel-transcode.webm"
+                  />
+                </div>
+                <MagneticEffect
+                  borderClassName=""
+                  distance={20}
+                  className="relative right-10  !h-28 !w-28 cursor-pointer bg-black hover:bg-[#3827C7] rounded-full flex items-center justify-center"
+                >
+                  <div className="magneticVdo">
+                    <FaPlay className="text-white" />
+                  </div>
+                </MagneticEffect>
+              </div>
+            </div>
+          </div>
+          <div className="contentBottom h-[33rem] rounded-3xl w-[90%] absolute left-1/2 -translate-x-1/2 px-5 bottom-10 flex items-center bg-slate-100">
+            <div className="leftParts w-1/2 h-full p-5 py-10 font-SuisseBold  tracking-wider flex flex-col">
+              <h1 className="uppercase font-medium opacity-70">healthcare</h1>
+              <h3 className="text-4xl py-10 font-semibold">
+                Kinetik Platform with over 3500+ Integrated Providers
+              </h3>
+              <p className="pr-5">
+                We helped Kinetik in developing an app and a convenient
+                analytics dashboard — by the end of 2022, they raised over $20M
+                in funding.
+              </p>
+            </div>
+            <div className="rightParts w-2/3 h-full">
+              <div className="VideoContainer w-full h-full mt-5 overflow-hidden">
+                <div className="cusClipPath">
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    className="rounded-3xl"
+                    src="/assets/bg-project-kinetik.mp4"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="iconContainer h-20 w-60 absolute bottom-28 left-28 flex gap-3 items-center">
+            <div
+              onMouseEnter={() => setIsLeftArrowHovered(true)}
+              onMouseLeave={() => setIsLeftArrowHovered(false)}
+              className="boxLeft cursor-pointer h-16 w-16 border-[1px] bg-white flex items-center justify-center rounded-full"
+            >
+              <ArrowButtonAnimation dir="left" isHovered={isLeftArrowHovered} />
+            </div>
+            <div
+              onMouseEnter={() => setIsRightArrowHovered(true)}
+              onMouseLeave={() => setIsRightArrowHovered(false)}
+              className="boxRight cursor-pointer h-16 w-16 border-[1px] bg-white flex items-center justify-center rounded-full"
+            >
+              <ArrowButtonAnimation
+                dir="right"
+                isHovered={isRightArrowHovered}
+              />
             </div>
           </div>
         </div>

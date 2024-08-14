@@ -12,7 +12,7 @@ const MagneticEffect = ({
 
   // Magnetic effect motion values
   const x = useMotionValue(0);
-  const y = useMotionValue(0);
+  const y = useMotionValue(0);  
 
   // Transform x and y to control the magnetic effect
   const xTransform = useTransform(x, [-distance, distance], [-20, 20]);
