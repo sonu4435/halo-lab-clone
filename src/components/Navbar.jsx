@@ -1,14 +1,18 @@
 import React, { useRef, useEffect, useState } from "react";
-import { RiArrowDownSLine, RiMenuLine, RiCloseLine } from "react-icons/ri";
+import { RiArrowDownSLine, RiMenuLine } from "react-icons/ri";
 import { motion, useAnimation } from "framer-motion";
 
 const Navbar = () => {
   const contactBtnRef = useRef(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [shouldHideMenu, setShouldHideMenu] = useState(false);
-  const [activeNavItem, setActiveNavItem] = useState(null);
+  const navRefs = {
+    services: useRef(null),
+    projects: useRef(null),
+    "Our Process": useRef(null),
+    "open sourCe": useRef(null),
+    "our blog": useRef(null)
+  };
 
-  // Initialize animation controls directly
   const controls = {
     services: {
       firstText: useAnimation(),
@@ -37,14 +41,6 @@ const Navbar = () => {
     }
   };
 
-  const navRefs = {
-    services: useRef(null),
-    projects: useRef(null),
-    "Our Process": useRef(null),
-    "open sourCe": useRef(null),
-    "our blog": useRef(null)
-  };
-
   const handleHover = (itemRef, animationControls) => {
     const handleMouseEnter = () => {
       animationControls.firstText.start({ y: -10, opacity: 0 });
@@ -66,120 +62,85 @@ const Navbar = () => {
     };
   };
 
-  useEffect(
-    () => {
-      const navCleanup = Object.keys(navRefs).map(key => {
-        const ref = navRefs[key];
-        const controlsForItem = controls[key];
-        return handleHover(ref, controlsForItem);
+  useEffect(() => {
+    const navCleanup = Object.keys(navRefs).map(key => {
+      const ref = navRefs[key];
+      const controlsForItem = controls[key];
+      return handleHover(ref, controlsForItem);
+    });
+
+    const handleMouseEnterContact = () => {
+      controls.contact.firstText.start({ y: -10, opacity: 0 });
+      controls.contact.secondText.start({ y: 0, opacity: 1 });
+      controls.contact.span.start({
+        backgroundColor: "#fff",
+        borderColor: "#3827C7",
+        borderWidth: "2px"
       });
+    };
 
-      const handleMouseEnterContact = () => {
-        controls.contact.firstText.start({ y: -10, opacity: 0 });
-        controls.contact.secondText.start({ y: 0, opacity: 1 });
-        controls.contact.span.start({
-          backgroundColor: "#fff",
-          borderColor: "#3827C7",
-          borderWidth: "2px"
-        });
-      };
+    const handleMouseLeaveContact = () => {
+      controls.contact.firstText.start({ y: 0, opacity: 1 });
+      controls.contact.secondText.start({ y: 50, opacity: 0 });
+      controls.contact.span.start({
+        backgroundColor: "#3827C7",
+        borderColor: "transparent",
+        borderWidth: 0
+      });
+    };
 
-      const handleMouseLeaveContact = () => {
-        controls.contact.firstText.start({ y: 0, opacity: 1 });
-        controls.contact.secondText.start({ y: 50, opacity: 0 });
-        controls.contact.span.start({
-          backgroundColor: "#3827C7",
-          borderColor: "transparent",
-          borderWidth: 0
-        });
-      };
+    const contactBtn = contactBtnRef.current;
+    contactBtn.addEventListener("mouseenter", handleMouseEnterContact);
+    contactBtn.addEventListener("mouseleave", handleMouseLeaveContact);
 
-      const contactBtn = contactBtnRef.current;
-      contactBtn.addEventListener("mouseenter", handleMouseEnterContact);
-      contactBtn.addEventListener("mouseleave", handleMouseLeaveContact);
+    return () => {
+      navCleanup.forEach(cleanup => cleanup());
 
-      return () => {
-        navCleanup.forEach(cleanup => cleanup());
-        contactBtn.removeEventListener("mouseenter", handleMouseEnterContact);
-        contactBtn.removeEventListener("mouseleave", handleMouseLeaveContact);
-      };
-    },
-    [controls]
-  );
-
-  useEffect(
-    () => {
-      const handleScroll = () => {
-        if (isMenuOpen) {
-          setShouldHideMenu(true);
-          setTimeout(() => {
-            setIsMenuOpen(false);
-            setShouldHideMenu(false);
-          }, 50); // Match duration of menu hiding animation
-        }
-      };
-
-      if (isMenuOpen) {
-        window.addEventListener("scroll", handleScroll);
-      } else {
-        setShouldHideMenu(false);
-        window.removeEventListener("scroll", handleScroll);
-      }
-
-      return () => window.removeEventListener("scroll", handleScroll);
-    },
-    [isMenuOpen]
-  );
-
-  const handleNavItemClick = key => {
-    if (window.innerWidth <= 1024) {
-      // Check for mobile screen size
-      setActiveNavItem(prev => (prev === key ? null : key));
-    }
-  };
+      contactBtn.removeEventListener("mouseenter", handleMouseEnterContact);
+      contactBtn.removeEventListener("mouseleave", handleMouseLeaveContact);
+    };
+  }, []);
 
   return (
     <div className="navBar z-10 w-full h-20 p-5">
-      <nav className="h-20 w-full bg-[#02021e] flex items-center px-0">
-        <ul className="w-full h-20 flex items-center justify-between border-t border-b border-2 border-l-0 border-r-0 overflow-hidden">
-          <div className="logo w-[140px] h-full flex items-center">
-            <img src="/assets/65142d5754eafa29699ca491_logo.svg" alt="logo" />
+      <nav className="h-20 w-full bg-[#02021e] lg:px-10 xl:px-20 flex items-center">
+        <ul className="w-full h-[4.5rem] border-t border-b border-2 border-l-0 border-r-0 flex items-center justify-between overflow-hidden">
+          <div className="logo">
+            <span>
+              <img src="/assets/fileLogo.png" alt="logo" className="h-44 w-4h-44" />
+            </span>
           </div>
-          <div className="flex items-center gap-10">
-            <div className="hidden lg:flex text-nowrap navLinks uppercase font-semibold leading-none text-white font-Suisse tracking-widest items-center gap-5 text-sm">
-              {Object.keys(navRefs).map(key =>
-                <li
-                  key={key}
-                  ref={navRefs[key]}
-                  onClick={() => handleNavItemClick(key)}
-                >
-                  <a href="/" className="flex relative gap-2">
-                    <motion.h2
-                      initial={{ y: 0, opacity: 1 }}
-                      animate={controls[key].firstText}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {key}
-                    </motion.h2>
-                    <motion.h2
-                      className="absolute"
-                      initial={{ y: 50, opacity: 0 }}
-                      animate={controls[key].secondText}
-                      transition={{ duration: 0.3 }}
-                    >
-                      {key}
-                    </motion.h2>
-                    {key === "services" &&
-                      <motion.span className="icon scale-150 font-bold">
-                        <RiArrowDownSLine />
-                      </motion.span>}
-                  </a>
-                </li>
-              )}
-            </div>
+          <div className="hidden lg:flex navLinks gap-10 text-nowrap uppercase font-semibold leading-none text-white font-Suisse tracking-widest text-sm">
+            {Object.keys(navRefs).map(key =>
+              <li key={key} ref={navRefs[key]}>
+                <a href="/" className="flex relative gap-2">
+                  <motion.h2
+                    initial={{ y: 0, opacity: 1 }}
+                    animate={controls[key].firstText}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {key}
+                  </motion.h2>
+                  <motion.h2
+                    className="absolute"
+                    initial={{ y: 50, opacity: 0 }}
+                    animate={controls[key].secondText}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {key}
+                  </motion.h2>
+                  {key === "services" &&
+                    <motion.span className="icon scale-150 font-bold">
+                      <RiArrowDownSLine />
+                    </motion.span>}
+                </a>
+              </li>
+            )}
+          </div>
+          <div className="flex items-center gap-6">
             <div
               ref={contactBtnRef}
-              className="group contactBtn font-Suisse hidden sm:flex relative cursor-pointer w-[175px] h-[45px] bg-white rounded-full items-center justify-around uppercase font-extrabold overflow-hidden"
+              className="group contactBtn font-SuisseBold relative cursor-pointer w-[160px] px-5 h-[40px] bg-white rounded-full flex items-center justify-around uppercase !font-medium overflow-hidden"
             >
               <motion.h2
                 className="text-sm leading-none h-fit absolute left-4 pt-1 tracking-wide"
@@ -212,34 +173,26 @@ const Navbar = () => {
               className="flex lg:hidden items-center justify-center text-white cursor-pointer"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen
-                ? <RiCloseLine size={30} />
-                : <RiMenuLine size={30} />}
+              <RiMenuLine size={30} />
             </div>
           </div>
         </ul>
         {isMenuOpen &&
           <motion.div
-            className={`h-[90%] w-full absolute left-0 bottom-0 flex justify-center z-50 bgStyle transition-transform ${shouldHideMenu
-              ? "translate-y-full"
-              : "translate-y-0"}`}
+            className="absolute top-20 left-0 w-full bg-[#02021e] flex flex-col items-center justify-center lg:hidden"
             initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: shouldHideMenu ? "100%" : 0 }}
-            exit={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <motion.div
-              className="absolute top-5 w-3/4 rounded-3xl bg-[#fff] text-black flex flex-col items-start px-10 justify-center lg:hidden"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              {Object.keys(navRefs).map(key =>
-                <a key={key} href="/" className="py-2 uppercase font-semibold">
-                  {key}
-                </a>
-              )}
-            </motion.div>
+            {Object.keys(navRefs).map(key =>
+              <a
+                key={key}
+                href="/"
+                className="py-2 text-white uppercase font-semibold"
+              >
+                {key}
+              </a>
+            )}
           </motion.div>}
       </nav>
     </div>

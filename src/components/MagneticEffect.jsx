@@ -64,7 +64,7 @@ const MagneticEffect = ({ children }) => {
         scale: scaleTransform,
         transition: "transform 0.2s"
       }}
-      className="relative h-[20rem] w-[20rem] rounded-full border border-gray-300/40 flex items-center justify-center"
+      className="relative h-[19rem] w-[19rem] rounded-full border border-gray-300/40 flex items-center justify-center"
     >
       {children}
       <div
